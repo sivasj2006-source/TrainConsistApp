@@ -1,5 +1,4 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
 
 public class TrainConsistApp {
 
@@ -7,28 +6,39 @@ public class TrainConsistApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Initialize HashSet for unique bogie IDs
-        Set<String> bogieIds = new HashSet<>();
+        // Initialize LinkedList for train consist
+        LinkedList<String> train = new LinkedList<>();
 
-        // Adding bogie IDs
-        System.out.println("\nAdding Bogie IDs...");
+        // Add bogies (end of train)
+        train.add("Engine");
+        train.add("Sleeper");
+        train.add("AC");
+        train.add("Cargo");
+        train.add("Guard");
 
-        bogieIds.add("B1");
-        bogieIds.add("B2");
-        bogieIds.add("B3");
+        System.out.println("\nInitial Train Consist:");
+        System.out.println(train);
 
-        // Attempt to add duplicate IDs
-        bogieIds.add("B2"); // duplicate
-        bogieIds.add("B1"); // duplicate
+        // Insert Pantry Car at position 2 (index 2)
+        train.add(2, "Pantry");
 
-        // Display unique bogie IDs
-        System.out.println("\nUnique Bogie IDs in Train:");
-        for (String id : bogieIds) {
-            System.out.println(id);
+        System.out.println("\nAfter adding Pantry at position 2:");
+        System.out.println(train);
+
+        // Remove first and last bogie
+        train.removeFirst();
+        train.removeLast();
+
+        System.out.println("\nAfter removing first and last bogie:");
+        System.out.println(train);
+
+        // Final ordered consist
+        System.out.println("\nFinal Train Consist:");
+        for (String bogie : train) {
+            System.out.print(bogie + " -> ");
         }
+        System.out.println("END");
 
-        System.out.println("\nTotal unique bogies: " + bogieIds.size());
-
-        System.out.println("\nSystem ensures no duplicate bogie IDs.");
+        System.out.println("\nSystem maintains ordered bogie arrangement.");
     }
 }
