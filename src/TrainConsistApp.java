@@ -1,52 +1,60 @@
-import java.util.Scanner;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+import java.util.*;
+import java.util.stream.Collectors;
 
+// Bogie class
+class Bogie {
+    String name;
+    int capacity;
+
+    public Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+}
+
+// Main class
 public class TrainConsistApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== UC11: Validate Train ID & Cargo Code ===");
+        System.out.println("=== UC13: Performance Comparison (Loop vs Stream) ===");
 
-        Scanner sc = new Scanner(System.in);
-
-        // Input from user
-        System.out.print("Enter Train ID (format: TRN-1234): ");
-        String trainId = sc.nextLine();
-
-        System.out.print("Enter Cargo Code (format: PET-AB): ");
-        String cargoCode = sc.nextLine();
-
-        // Define regex patterns
-        String trainPattern = "TRN-\\d{4}";
-        String cargoPattern = "PET-[A-Z]{2}";
-
-        // Compile patterns
-        Pattern trainRegex = Pattern.compile(trainPattern);
-        Pattern cargoRegex = Pattern.compile(cargoPattern);
-
-        // Match inputs
-        Matcher trainMatcher = trainRegex.matcher(trainId);
-        Matcher cargoMatcher = cargoRegex.matcher(cargoCode);
-
-        // Validate using matches()
-        boolean isTrainValid = trainMatcher.matches();
-        boolean isCargoValid = cargoMatcher.matches();
-
-        // Output results
-        System.out.println("\nValidation Results:");
-
-        if (isTrainValid) {
-            System.out.println("Train ID is VALID");
-        } else {
-            System.out.println("Train ID is INVALID");
+        // Create large dataset
+        List<Bogie> bogieList = new ArrayList<>();
+        for (int i = 0; i < 100000; i++) {
+            bogieList.add(new Bogie("Sleeper", 50 + (i % 50)));
         }
 
-        if (isCargoValid) {
-            System.out.println("Cargo Code is VALID");
-        } else {
-            System.out.println("Cargo Code is INVALID");
+        // 🔹 LOOP-BASED FILTERING
+        long startLoop = System.nanoTime();
+
+        List<Bogie> loopResult = new ArrayList<>();
+        for (Bogie b : bogieList) {
+            if (b.capacity > 60) {
+                loopResult.add(b);
+            }
         }
+
+        long endLoop = System.nanoTime();
+        long loopTime = endLoop - startLoop;
+
+        // 🔹 STREAM-BASED FILTERING
+        long startStream = System.nanoTime();
+
+        List<Bogie> streamResult = bogieList.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
+
+        long endStream = System.nanoTime();
+        long streamTime = endStream - startStream;
+
+        // Display results
+        System.out.println("\nLoop Result Count: " + loopResult.size());
+        System.out.println("Stream Result Count: " + streamResult.size());
+
+        System.out.println("\nExecution Time:");
+        System.out.println("Loop Time   : " + loopTime + " ns");
+        System.out.println("Stream Time : " + streamTime + " ns");
 
         System.out.println("\nProgram continues...");
     }
