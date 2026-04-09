@@ -1,32 +1,47 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+// Bogie class (Custom Object)
+class Bogie {
+    String name;
+    int capacity;
+
+    // Constructor
+    public Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
+    // toString() for easy display
+    @Override
+    public String toString() {
+        return name + " -> Capacity: " + capacity;
+    }
+}
+
+// Main class
 public class TrainConsistApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== Train Consist Management App ===");
+        System.out.println("=== UC7: Sort Bogies by Capacity ===");
 
-        // Initialize HashMap for bogie-capacity mapping
-        HashMap<String, Integer> bogieCapacityMap = new HashMap<>();
+        // Create List of Bogies
+        List<Bogie> bogieList = new ArrayList<>();
 
-        // Insert bogie capacities using put()
-        bogieCapacityMap.put("Sleeper", 72);
-        bogieCapacityMap.put("AC Chair", 60);
-        bogieCapacityMap.put("First Class", 24);
+        // Add bogies
+        bogieList.add(new Bogie("Sleeper", 72));
+        bogieList.add(new Bogie("AC Chair", 60));
+        bogieList.add(new Bogie("First Class", 24));
 
-        // Display mapping using entrySet()
-        System.out.println("\nBogie Capacity Details:");
+        // Sort using Comparator (ascending order)
+        bogieList.sort(Comparator.comparingInt(b -> b.capacity));
 
-        for (Map.Entry<String, Integer> entry : bogieCapacityMap.entrySet()) {
-            System.out.println(entry.getKey() + " -> Capacity: " + entry.getValue());
+        // Display sorted bogies
+        System.out.println("\nSorted Bogies (by Capacity):");
+        for (Bogie b : bogieList) {
+            System.out.println(b);
         }
 
-        // Example of fast lookup
-        String searchBogie = "Sleeper";
-        System.out.println("\nCapacity of " + searchBogie + ": "
-                + bogieCapacityMap.get(searchBogie));
-
-        System.out.println("\nSystem ready for further operations...");
+        System.out.println("\nProgram continues...");
     }
 }
