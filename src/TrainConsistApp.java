@@ -1,22 +1,11 @@
 import java.util.*;
 
-// 🔹 Custom Exception
-class InvalidCapacityException extends Exception {
-    public InvalidCapacityException(String message) {
-        super(message);
-    }
-}
-
-// 🔹 Bogie class with validation
+// Bogie class
 class Bogie {
     String name;
     int capacity;
 
-    // Constructor with validation
-    public Bogie(String name, int capacity) throws InvalidCapacityException {
-        if (capacity <= 0) {
-            throw new InvalidCapacityException("Capacity must be greater than 0!");
-        }
+    public Bogie(String name, int capacity) {
         this.name = name;
         this.capacity = capacity;
     }
@@ -27,32 +16,45 @@ class Bogie {
     }
 }
 
-// 🔹 Main class
+// Main class
 public class TrainConsistApp {
+
+    // 🔹 Bubble Sort Method
+    public static void bubbleSort(List<Bogie> list) {
+        int n = list.size();
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+
+                if (list.get(j).capacity > list.get(j + 1).capacity) {
+                    // Swap
+                    Bogie temp = list.get(j);
+                    list.set(j, list.get(j + 1));
+                    list.set(j + 1, temp);
+                }
+            }
+        }
+    }
 
     public static void main(String[] args) {
 
-        System.out.println("=== UC14: Handle Invalid Bogie Capacity ===");
+        System.out.println("=== UC16: Bubble Sort Bogies by Capacity ===");
 
+        // Create bogie list
         List<Bogie> bogieList = new ArrayList<>();
+        bogieList.add(new Bogie("Sleeper", 72));
+        bogieList.add(new Bogie("AC Chair", 60));
+        bogieList.add(new Bogie("First Class", 24));
 
-        try {
-            // Valid bogie
-            bogieList.add(new Bogie("Sleeper", 72));
+        // Apply Bubble Sort
+        bubbleSort(bogieList);
 
-            // Invalid bogie (will throw exception)
-            bogieList.add(new Bogie("AC Chair", -10));
-
-        } catch (InvalidCapacityException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-
-        // Display valid bogies
-        System.out.println("\nValid Bogies:");
+        // Display sorted list
+        System.out.println("\nSorted Bogies (Ascending):");
         for (Bogie b : bogieList) {
             System.out.println(b);
         }
 
-        System.out.println("\nProgram continues safely...");
+        System.out.println("\nProgram continues...");
     }
 }
