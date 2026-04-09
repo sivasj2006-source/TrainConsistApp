@@ -2,51 +2,49 @@ import java.util.*;
 
 public class TrainConsistApp {
 
-    // 🔹 Binary Search Method
-    public static int binarySearch(String[] arr, String key) {
-        int low = 0;
-        int high = arr.length - 1;
+    // 🔹 Search Method with validation
+    public static int searchBogie(List<String> bogieIds, String key) {
 
-        while (low <= high) {
-            int mid = (low + high) / 2;
+        // Defensive check (Fail-Fast)
+        if (bogieIds.isEmpty()) {
+            throw new IllegalStateException("No bogies available for search!");
+        }
 
-            int result = arr[mid].compareTo(key);
-
-            if (result == 0) {
-                return mid; // found
-            } else if (result < 0) {
-                low = mid + 1; // search right
-            } else {
-                high = mid - 1; // search left
+        // Linear search logic
+        for (int i = 0; i < bogieIds.size(); i++) {
+            if (bogieIds.get(i).equals(key)) {
+                return i;
             }
         }
 
-        return -1; // not found
+        return -1;
     }
 
     public static void main(String[] args) {
 
-        System.out.println("=== UC19: Binary Search for Bogie ID ===");
+        System.out.println("=== UC20: Exception Handling During Search ===");
 
-        // 🔹 Sorted array (IMPORTANT)
-        String[] bogieIds = {"BG101", "BG150", "BG205", "BG275", "BG320"};
+        List<String> bogieIds = new ArrayList<>();
+        // Try commenting this line to test exception
+        // bogieIds.add("BG101");
 
         Scanner sc = new Scanner(System.in);
-
-        // Input search key
         System.out.print("Enter Bogie ID to search: ");
         String key = sc.nextLine();
 
-        // Call binary search
-        int index = binarySearch(bogieIds, key);
+        try {
+            int result = searchBogie(bogieIds, key);
 
-        // Display result
-        if (index != -1) {
-            System.out.println("Bogie ID found at position: " + index);
-        } else {
-            System.out.println("Bogie ID not found.");
+            if (result != -1) {
+                System.out.println("Bogie found at position: " + result);
+            } else {
+                System.out.println("Bogie not found.");
+            }
+
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        System.out.println("\nProgram continues...");
+        System.out.println("\nProgram continues safely...");
     }
 }
