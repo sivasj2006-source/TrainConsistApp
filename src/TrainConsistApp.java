@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 // Bogie class
 class Bogie {
@@ -22,28 +21,21 @@ public class TrainConsistApp {
 
     public static void main(String[] args) {
 
-        System.out.println("=== UC9: Group Bogies by Type ===");
+        System.out.println("=== UC10: Count Total Seats in Train ===");
 
         // Reuse bogie list
         List<Bogie> bogieList = new ArrayList<>();
         bogieList.add(new Bogie("Sleeper", 72));
         bogieList.add(new Bogie("AC Chair", 60));
         bogieList.add(new Bogie("First Class", 24));
-        bogieList.add(new Bogie("Sleeper", 70)); // duplicate type for grouping
 
-        // Group using Stream + groupingBy
-        Map<String, List<Bogie>> groupedBogies = bogieList.stream()
-                .collect(Collectors.groupingBy(b -> b.name));
+        // Calculate total capacity using Stream
+        int totalSeats = bogieList.stream()
+                .map(b -> b.capacity)          // extract capacity
+                .reduce(0, Integer::sum);      // sum all values
 
-        // Display grouped data
-        System.out.println("\nGrouped Bogies:");
-
-        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
-            System.out.println("\nType: " + entry.getKey());
-            for (Bogie b : entry.getValue()) {
-                System.out.println("  " + b);
-            }
-        }
+        // Display result
+        System.out.println("\nTotal Seating Capacity: " + totalSeats);
 
         System.out.println("\nProgram continues...");
     }
