@@ -1,33 +1,49 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class TrainConsistApp {
 
+    // 🔹 Binary Search Method
+    public static int binarySearch(String[] arr, String key) {
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            int result = arr[mid].compareTo(key);
+
+            if (result == 0) {
+                return mid; // found
+            } else if (result < 0) {
+                low = mid + 1; // search right
+            } else {
+                high = mid - 1; // search left
+            }
+        }
+
+        return -1; // not found
+    }
+
     public static void main(String[] args) {
 
-        System.out.println("=== UC18: Linear Search for Bogie ID ===");
+        System.out.println("=== UC19: Binary Search for Bogie ID ===");
 
-        // Array of Bogie IDs (unsorted)
-        String[] bogieIds = {"BG101", "BG205", "BG150", "BG320", "BG275"};
+        // 🔹 Sorted array (IMPORTANT)
+        String[] bogieIds = {"BG101", "BG150", "BG205", "BG275", "BG320"};
 
         Scanner sc = new Scanner(System.in);
 
         // Input search key
         System.out.print("Enter Bogie ID to search: ");
-        String searchKey = sc.nextLine();
+        String key = sc.nextLine();
 
-        boolean found = false;
+        // Call binary search
+        int index = binarySearch(bogieIds, key);
 
-        // Linear Search
-        for (int i = 0; i < bogieIds.length; i++) {
-            if (bogieIds[i].equals(searchKey)) {
-                System.out.println("Bogie ID found at position: " + i);
-                found = true;
-                break; // early termination
-            }
-        }
-
-        // If not found
-        if (!found) {
+        // Display result
+        if (index != -1) {
+            System.out.println("Bogie ID found at position: " + index);
+        } else {
             System.out.println("Bogie ID not found.");
         }
 
